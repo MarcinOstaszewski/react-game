@@ -1,19 +1,23 @@
 import React from 'react';
 import './CharacterSettingsForm.css';
 import CharacterNameField from './CharacterNameField';
+import ColorNameField from './ColorNameField';
+import ColorSlider from './ColorSlider';
 
 type CharacterSettingsFormProps = {
   name: string;
   color: { r: number; g: number; b: number };
   setName: React.Dispatch<React.SetStateAction<string>>;
   handleColorChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  colorName: string;
 };
 
 const CharacterSettingsForm: React.FC<CharacterSettingsFormProps> = ({
   name,
   color,
   setName,
-  handleColorChange
+  handleColorChange,
+  colorName,
 }) => {
 
   return (
@@ -21,18 +25,12 @@ const CharacterSettingsForm: React.FC<CharacterSettingsFormProps> = ({
       <CharacterNameField name={name} setName={setName} />
 
       {['r', 'g', 'b'].map((colorKey) => (
-        <div key={colorKey}>
-          <label htmlFor={colorKey}>{colorKey.toUpperCase()}:</label>
-          <input
-        type="range"
-        id={colorKey}
-        name={colorKey}
-        min="0"
-        max="255"
-        value={color[colorKey as keyof typeof color]}
-        onChange={handleColorChange}
-          />
-        </div>
+        <ColorSlider
+          key={colorKey}
+          colorKey={colorKey}
+          color={color}
+          handleColorChange={handleColorChange}
+        />
       ))}
       <div>
         <label htmlFor="current-color">Current color:</label>
@@ -43,15 +41,7 @@ const CharacterSettingsForm: React.FC<CharacterSettingsFormProps> = ({
           }}
         ></div>
       </div>
-      <div>
-        <label htmlFor="colorName">Color Name:</label>
-        <input
-          type="text"
-          id="colorName"
-          value={''} // Leave it empty for now
-          readOnly
-        />
-      </div>
+      <ColorNameField colorName={colorName}/>
     </form>
   );
 };
