@@ -1,6 +1,5 @@
 export function createGameBoard(boardSize: number) {
   const totalSquares = boardSize * boardSize;
-  const squares: null[] = Array(totalSquares).fill(null);
 
   // Randomly place the player and obstacles
   const playerPosition = Math.floor(Math.random() * totalSquares);
@@ -11,5 +10,5 @@ export function createGameBoard(boardSize: number) {
       firePositions.add(firePosition);
     }
   }
-  return { squares, playerPosition, firePositions };
+  return { totalSquares, playerPosition, firePositions };
 }

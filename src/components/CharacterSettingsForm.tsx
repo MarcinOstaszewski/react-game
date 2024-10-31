@@ -1,5 +1,5 @@
 import React from 'react';
-import './CharacterSettingsForm.css';
+import '../sass/CharacterSettingsForm.css';
 import CharacterNameField from './CharacterNameField';
 import ColorNameField from './ColorNameField';
 import ColorSlider from './ColorSlider';
