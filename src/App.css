@@ -5,6 +5,12 @@
   --text-color: #d0d5dd;
   --text-muted-color: #8e9fae;
 }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
+}
 
 body {
   background-color: var(--bg-body-color);
@@ -30,7 +36,7 @@ h1 {
 .left-section, .right-section {
   display: flex;
   flex-direction: column;
-  padding: 1rem;
+  padding: 10px;
   background-color: var(--bg-lighter-color);
 }
 .left-section {
@@ -38,7 +44,7 @@ h1 {
   margin-right: 1rem;
 }
 .right-section {
-  width: 600px;
+  width: 500px;
 }
 
 

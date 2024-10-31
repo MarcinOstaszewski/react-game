@@ -3,6 +3,7 @@ import './CharacterSettingsForm.css';
 import CharacterNameField from './CharacterNameField';
 import ColorNameField from './ColorNameField';
 import ColorSlider from './ColorSlider';
+import CurrentColorDisplay from './CurrentColorDisplay';
 
 type CharacterSettingsFormProps = {
   name: string;
@@ -21,9 +22,8 @@ const CharacterSettingsForm: React.FC<CharacterSettingsFormProps> = ({
 }) => {
 
   return (
-    <form>
+    <form className='character-form'>
       <CharacterNameField name={name} setName={setName} />
-
       {['r', 'g', 'b'].map((colorKey) => (
         <ColorSlider
           key={colorKey}
@@ -32,15 +32,7 @@ const CharacterSettingsForm: React.FC<CharacterSettingsFormProps> = ({
           handleColorChange={handleColorChange}
         />
       ))}
-      <div>
-        <label htmlFor="current-color">Current color:</label>
-        <div
-          className="current-color"
-          style={{
-            backgroundColor: `rgb(${color.r}, ${color.g}, ${color.b})`
-          }}
-        ></div>
-      </div>
+      <CurrentColorDisplay color={color} />
       <ColorNameField colorName={colorName}/>
     </form>
   );
