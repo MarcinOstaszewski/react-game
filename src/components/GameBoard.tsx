@@ -1,50 +1,60 @@
 import React, { useEffect, useState } from 'react';
 import '../sass/GameBoard.css';
 import { Color } from '../types/types';
-import { useArrowPressed } from '../hooks/useArrowPressed';
 import { isPlayerOnFire } from '../helpers/helpers';
 import HealthDisplay from './HealthDisplay';
 import BoardSquares from './BoardSqares';
+import { createGameBoard } from '../helpers/createGameBoard';
+import { handleKeyDown } from '../helpers/handleKeyDown';
 
 interface GameBoardProps {
   color: Color;
   name: string;
-  squares: number;
-  playerPosition: number;
-  firePositions: Set<number>;
 }
 
 const GameBoard: React.FC<GameBoardProps> = (
-  { color, name, squares, playerPosition, firePositions }
+  { color, name }
 ) => {
+  const [squares, setSquares] = useState<number>(0);
+  const [playerPosition, setPlayerPosition] = useState(0);
+  const [firePositions, setFirePositions] = useState(new Set<number>());
   const [healthPoints, setHealthPoints] = useState(10);
-  const [playerIndex, setPlayerIndex] = useState(playerPosition);
-  const index = useArrowPressed(playerPosition);
 
   useEffect(() => {
-    setPlayerIndex(index);
-  }, [index]);
+    const { totalSquares, playerPosition, firePositions } = createGameBoard();
+    setSquares(totalSquares);
+    setPlayerPosition(playerPosition);
+    setFirePositions(firePositions);
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener('keydown', (e) => handleKeyDown(e, setPlayerPosition));
+    return () => {
+      window.removeEventListener('keydown', (e) => handleKeyDown(e, setPlayerPosition));
+    };
+  }, []);
+
 
   const healthPointLost = () => {
     setHealthPoints((prevHealth) => Math.max(prevHealth - 1, 0))
   };
 
   useEffect(() => {
-    if (isPlayerOnFire(playerIndex, firePositions)) {
+    if (isPlayerOnFire(playerPosition, firePositions)) {
       healthPointLost();
       const interval = setInterval(() => {
         healthPointLost();
       }, 500);
       return () => clearInterval(interval);
     }
-  }, [playerIndex, firePositions]);
+  }, [playerPosition, firePositions]);
 
   return (
     <div className="game-board-container">
       <div className="game-board">
         <BoardSquares
           squares={squares} 
-          playerIndex={playerIndex} 
+          playerIndex={playerPosition} 
           color={color} 
           name={name} 
           firePositions={firePositions} 

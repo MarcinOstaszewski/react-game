@@ -1,5 +1,7 @@
-export function createGameBoard(boardSize: number) {
-  const totalSquares = boardSize * boardSize;
+import { gameBoardSize } from "../constants/constants";
+
+export function createGameBoard() {
+  const totalSquares = gameBoardSize * gameBoardSize;
 
   // Randomly place the player and obstacles
   const playerPosition = Math.floor(Math.random() * totalSquares);
