@@ -58,7 +58,21 @@
   }
   
   .fire {
-    background-color: red;
+    background-color: #ff300b;
+  }
+
+  .goal {
+    position: relative;
+  }
+  .goal::after {
+    content: '';
+    position: absolute;
+    top: 9px;
+    left: 9px;
+    background: linear-gradient(25deg, #00c6ff, #0062d9, #23cfff, #0072ff);
+    width: 21px;
+    height: 21px;
+    transform: rotate(45deg);
   }
 }
 

@@ -49,7 +49,7 @@ input[type="range"]::-moz-range-thumb {
 }
 
 input[type="range"]#r {
-  background: linear-gradient(to right, #fcc, #f00);
+  background: linear-gradient(to right, #300, #f00);
 }
 
 input[type="range"]#r::-webkit-slider-thumb {
@@ -61,7 +61,7 @@ input[type="range"]#r::-moz-range-thumb {
 }
 
 input[type="range"]#g {
-  background: linear-gradient(to right, #cfc, #0f0);
+  background: linear-gradient(to right, #030, #0f0);
 }
 
 input[type="range"]#g::-webkit-slider-thumb {
@@ -73,7 +73,7 @@ input[type="range"]#g::-moz-range-thumb {
 }
 
 input[type="range"]#b {
-  background: linear-gradient(to right, #ccf, #00f);
+  background: linear-gradient(to right, #003, #00f);
 }
 
 input[type="range"]#b::-webkit-slider-thumb {

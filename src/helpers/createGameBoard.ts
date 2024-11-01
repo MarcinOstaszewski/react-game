@@ -1,13 +1,12 @@
-import { gameBoardSize } from "../constants/constants";
+import { totalSquares } from "../constants/constants";
+import { getRandomPosition } from "./helpers";
 
 export function createGameBoard() {
-  const totalSquares = gameBoardSize * gameBoardSize;
-
   // Randomly place the player and obstacles
-  const playerPosition = Math.floor(Math.random() * totalSquares);
+  const playerPosition = getRandomPosition(totalSquares);
   const firePositions = new Set<number>();
   while (firePositions.size < 10) { // Adjust the number of obstacles as needed
-    const firePosition = Math.floor(Math.random() * totalSquares);
+    const firePosition = getRandomPosition(totalSquares);
     if (firePosition !== playerPosition) {
       firePositions.add(firePosition);
     }
