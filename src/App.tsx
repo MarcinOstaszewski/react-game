@@ -4,7 +4,7 @@ import { Color } from './types/types';
 import { useDebounce } from './hooks/useDebounce';
 import CharacterSettingsForm from './components/CharacterSettingsForm';
 import fetchColorName from './helpers/fetchColorName';
-import GameBoard from './components/GameBoard';
+import GameBoardContainer from './components/GameBoardContainer';
 import { getRandomColor } from './helpers/getRandomColor';
 
 function App() {
@@ -43,7 +43,7 @@ function App() {
         />
       </section>
       <section className="right-section">
-        <GameBoard
+        <GameBoardContainer
           color={color}
           name={name}
         />

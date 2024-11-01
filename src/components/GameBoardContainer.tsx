@@ -1,30 +1,35 @@
 import React, { useEffect, useState } from 'react';
-import '../sass/GameBoard.css';
+import '../sass/GameBoardContainer.css';
 import { Color } from '../types/types';
-import { isPlayerOnFire } from '../helpers/helpers';
-import HealthDisplay from './HealthDisplay';
-import BoardSquares from './BoardSqares';
+import { getGoalPosition, isPlayerOnFire } from '../helpers/helpers';
 import { createGameBoard } from '../helpers/createGameBoard';
 import { handleKeyDown } from '../helpers/handleKeyDown';
+import GameBoard from './GameBoard';
+import GameBoardDisplay from './GameBoardDisplay';
+import { totalSquares } from '../constants/constants';
 
-interface GameBoardProps {
+interface GameBoardContainerProps {
   color: Color;
   name: string;
 }
 
-const GameBoard: React.FC<GameBoardProps> = (
+const GameBoardContainer: React.FC<GameBoardContainerProps> = (
   { color, name }
 ) => {
   const [squares, setSquares] = useState<number>(0);
+  const [goalPosition, setGoalPosition] = useState(0);
   const [playerPosition, setPlayerPosition] = useState(0);
   const [firePositions, setFirePositions] = useState(new Set<number>());
   const [healthPoints, setHealthPoints] = useState(10);
+  const [points, setPoints] = useState(0);
+
 
   useEffect(() => {
-    const { totalSquares, playerPosition, firePositions } = createGameBoard();
+    const { playerPosition, firePositions } = createGameBoard();
     setSquares(totalSquares);
     setPlayerPosition(playerPosition);
     setFirePositions(firePositions);
+    setGoalPosition(getGoalPosition(playerPosition));
   }, []);
 
   useEffect(() => {
@@ -34,10 +39,14 @@ const GameBoard: React.FC<GameBoardProps> = (
     };
   }, []);
 
+  const healthPointLost = React.useCallback(() => {
+    setHealthPoints((prevHealth) => Math.max(prevHealth - 1, 0));
+  }, []);
 
-  const healthPointLost = () => {
-    setHealthPoints((prevHealth) => Math.max(prevHealth - 1, 0))
-  };
+  const pointGained = React.useCallback(() => {
+    setPoints((prevPoints) => prevPoints + 1);
+    setGoalPosition(getGoalPosition(playerPosition));
+  }, [playerPosition]);
 
   useEffect(() => {
     if (isPlayerOnFire(playerPosition, firePositions)) {
@@ -47,25 +56,27 @@ const GameBoard: React.FC<GameBoardProps> = (
       }, 500);
       return () => clearInterval(interval);
     }
-  }, [playerPosition, firePositions]);
+    if (playerPosition === goalPosition) {
+      pointGained();
+    }
+  }, [playerPosition, firePositions, goalPosition, healthPointLost, pointGained]);
 
   return (
     <div className="game-board-container">
-      <div className="game-board">
-        <BoardSquares
-          squares={squares} 
-          playerIndex={playerPosition} 
-          color={color} 
-          name={name} 
-          firePositions={firePositions} 
-        />
-      </div>
-      <div className="game-board-display">
-        <div className="points-display">Points: {0}</div>
-        <HealthDisplay healthPoints={healthPoints} />
-      </div>
+      <GameBoard
+        color={color}
+        name={name}
+        squares={squares}
+        goalPosition={goalPosition}
+        playerPosition={playerPosition}
+        firePositions={firePositions}
+      />
+      <GameBoardDisplay
+        healthPoints={healthPoints}
+        points={points}
+      />
     </div>
   );
 };
 
-export default GameBoard;
+export default GameBoardContainer;

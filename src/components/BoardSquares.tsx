@@ -4,17 +4,18 @@ import { Color } from '../types/types';
 
 interface BoardSquaresProps {
   squares: number;
-  playerIndex: number;
+  playerPosition: number;
   color: Color;
   name: string;
   firePositions: Set<number>;
+  goalPosition: number;
 }
 
-const BoardSquares: React.FC<BoardSquaresProps> = ({ squares, playerIndex, color, name, firePositions }) => {
+const BoardSquares: React.FC<BoardSquaresProps> = ({ squares, playerPosition, color, name, firePositions, goalPosition }) => {
   const elements = [];
 
   for (let index = 0; index < squares; index++) {
-    if (index === playerIndex) {
+    if (index === playerPosition) {
       elements.push(
         <Character
           key={index}
@@ -25,6 +26,8 @@ const BoardSquares: React.FC<BoardSquaresProps> = ({ squares, playerIndex, color
       );
     } else if (firePositions.has(index)) {
       elements.push(<div key={index} className="fire"></div>);
+    } else if (index === goalPosition) {
+      elements.push(<div key={index} className="goal"></div>);
     } else {
       elements.push(<div key={index}></div>);
     }
