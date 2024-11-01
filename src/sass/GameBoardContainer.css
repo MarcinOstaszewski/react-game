@@ -43,7 +43,7 @@
 
   .player {
     position: relative;
-    background-color: blue;
+    border-radius: 20%;
   
     .player-name {
       position: absolute;

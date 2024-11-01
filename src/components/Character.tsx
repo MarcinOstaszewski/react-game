@@ -8,13 +8,13 @@ interface CharacterProps {
 }
 
 const Character: React.FC<CharacterProps> = ({ color, name, index }) => {
-  const getPlayerStyle = (color: Color, property: string) => ({
+  const getPlayerStyle = (property: string, color: Color) => ({
     [property]: `rgb(${color.r}, ${color.g}, ${color.b})`,
   });
 
   return (
-    <div key={index} className="player" style={getPlayerStyle(color, 'backgroundColor')}>
-      <div className="player-name" style={getPlayerStyle(color, 'color')}>{name}</div>
+    <div key={index} className="player" style={getPlayerStyle('backgroundColor', color)}>
+      <div className="player-name" style={getPlayerStyle('color', color)}>{name}</div>
     </div>
   );
 };
